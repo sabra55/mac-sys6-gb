@@ -24,7 +24,7 @@ INCDIRS  = src/ include/
 WARNINGS = all extra
 ASFLAGS  = -p ${PADVALUE} $(addprefix -I,${INCDIRS}) $(addprefix -W,${WARNINGS}) -h
 LDFLAGS  = -p ${PADVALUE}
-FIXFLAGS = -p ${PADVALUE} -i "${GAMEID}" -k "${LICENSEE}" -l ${OLDLIC} -m ${MBC} -n ${VERSION} -r ${SRAMSIZE} -t ${TITLE}
+FIXFLAGS = -p ${PADVALUE} -i "${GAMEID}" -k "${LICENSEE}" -l ${OLDLIC} -m 0x1B -n ${VERSION} -r ${SRAMSIZE} -t ${TITLE}
 
 # The list of ASM files that RGBASM will be invoked on.
 SRCS = $(call rwildcard,src,*.asm)
@@ -112,7 +112,7 @@ endif
 # By default, cloning the repo does not init submodules; if that happens, warn the user.
 # Note that the real paths aren't used!
 # Since RGBASM fails to find the files, it outputs the raw paths, not the actual ones.
-hardware.inc/hardware.inc rgbds-structs/structs.asm:
+include/hardware.inc/hardware.inc include/rgbds-structs/structs.asm:
 	@echo '$@ is not present; have you initialized submodules?'
 	@echo 'Run `git submodule update --init`, then `make clean`, then `make` again.'
 	@echo 'Tip: to avoid this, use `git clone --recursive` next time!'

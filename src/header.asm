@@ -1,4 +1,6 @@
 
+DEF VWF_CFG_FILE EQU "src/engine/vwfc.asm"
+
 INCLUDE "defines.asm"
 
 
@@ -104,7 +106,17 @@ Reset::
 	rst MemsetSmall
 	ld a, h ; ld a, HIGH(wShadowOAM)
 	ldh [hOAMHigh], a
+	
+	ld hl, $9800 ; gdzie zacząć
+	ld bc, (SCRN_VX_B * SCRN_VY_B) * 2 ; ile wypełnić (razy 2, aby wypełnić przy okazji $9C00)
+	xor a ; czym wypełnić (xor a = ld a, 0)
+	call LCDMemset
 
+	; czcionka
+	; xor a ; niepotrzebne
+	ld [wNbPixelsDrawn], a
+	ld [wNbTicksBetweenPrints], a ; zawsze tak będzie
+	
 	; `Intro`'s bank has already been loaded earlier
 	jp Intro
 
